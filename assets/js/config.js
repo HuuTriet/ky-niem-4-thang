@@ -224,8 +224,8 @@ Yêu em.`,
       options: ["Nụ cười của em", "Ánh mắt của em", "Cách em nhiệt tình với mọi người", "Tất cả những điều trên"],
       answer: 3, reaction: "Từ hôm đó anh đã thấy em đặc biệt." },
     { q: "Biệt danh anh hay gọi em là gì?",
-      options: ["Bé", "Vợ", "Người thương", "Biệt danh riêng của mình"], // ⬅️ SỬA cho đúng biệt danh thật
-      answer: 3, reaction: "Gọi quen rồi, không đổi được nữa." },
+      options: ["Bé", "Vợ", "Người thương", "Cưng"],
+      answer: 1, reaction: "Vợ — gọi quen miệng rồi, không đổi được nữa." },
     { type: "date", q: "Mình chính thức yêu nhau vào ngày nào? Em nhập thử xem.",
       d: 13, m: 3, y: 2026,
       reaction: "13.03.2026 — ngày em đồng ý.",
@@ -251,7 +251,7 @@ Yêu em.`,
     chapter: "Chương mười",
     title: "Cây thông yêu thương",
     text: "Chuyện của mình bắt đầu từ chiến dịch Đông Xuân — nên ở đây có một cây thông. Cây này của riêng hai đứa: mỗi dịp đáng nhớ, mình lại cùng nhau treo lên một lời chúc.",
-    passcode: "1303", // mật mã để treo lời chúc — chỉ hai đứa biết (đổi tuỳ ý)
+    passcode: "120206", // mật mã để treo lời chúc — chỉ hai đứa biết (đổi tuỳ ý)
     firebase: {
       apiKey: "AIzaSyA81E1I0eWEwXRqy2sUP2rdw4tr9lGZ9bE",
       authDomain: "anniversary4th.firebaseapp.com",

@@ -125,20 +125,48 @@
     if (b.type === 'moments') {
       const sec = document.createElement('section');
       sec.className = 'moments';
-      let grid = '';
-      (b.photos || []).forEach((p) => {
-        grid += '<figure class="moment reveal" data-src="' + esc(p.src) + '" data-cap="' + esc(p.cap || '') + '">' +
-          '<img src="' + esc(p.src) + '" alt="' + esc(p.cap || 'Ảnh kỉ niệm') + '" ' + dimAttr(p.src) + 'loading="lazy" decoding="async" />' +
-          (p.cap ? '<figcaption>' + esc(p.cap) + '</figcaption>' : '') +
-          '</figure>';
-      });
       sec.innerHTML =
         '<div class="chapterhead reveal">' +
           '<p class="chapterhead__eyebrow">' + esc(b.chapter || '') + '</p>' +
           '<h2 class="chapterhead__title">' + esc(b.title || '') + '</h2>' +
           '<p class="chapterhead__text">' + esc(b.text || '') + '</p>' +
         '</div>' +
-        '<div class="moments__grid">' + grid + '</div>';
+        '<div class="moments__grid"></div>';
+      const grid = sec.querySelector('.moments__grid');
+      // Tự chia cột bằng JS thay cho CSS columns — Safari chia lệch khi ảnh lazy
+      // (biết trước tỉ lệ từng ảnh nên thẻ nào cũng xếp vào cột đang thấp nhất)
+      const figs = (b.photos || []).map((p) => {
+        const fig = document.createElement('figure');
+        fig.className = 'moment reveal';
+        fig.dataset.src = p.src; fig.dataset.cap = p.cap || '';
+        fig.innerHTML =
+          '<img src="' + esc(p.src) + '" alt="' + esc(p.cap || 'Ảnh kỉ niệm') + '" ' + dimAttr(p.src) + 'loading="lazy" decoding="async" />' +
+          (p.cap ? '<figcaption>' + esc(p.cap) + '</figcaption>' : '');
+        const d = PHOTO_DIMS[String(p.src || '').split('/').pop()];
+        fig._h = (d ? d[1] / d[0] : 1.1) + (p.cap ? 0.26 : 0.03); // chiều cao ước lượng: ảnh + chú thích
+        return fig;
+      });
+      const wide = window.matchMedia('(min-width: 760px)');
+      const layoutMoments = () => {
+        const n = wide.matches ? 3 : 2;
+        if (grid._cols === n) return;
+        grid._cols = n;
+        grid.textContent = '';
+        const cols = [], hs = [];
+        for (let i = 0; i < n; i++) {
+          const c = document.createElement('div');
+          c.className = 'moments__col';
+          grid.appendChild(c); cols.push(c); hs.push(0);
+        }
+        figs.forEach((f) => {
+          let k = 0;
+          for (let i = 1; i < n; i++) if (hs[i] < hs[k] - 0.001) k = i;
+          cols[k].appendChild(f); hs[k] += f._h;
+        });
+      };
+      layoutMoments();
+      if (wide.addEventListener) wide.addEventListener('change', layoutMoments);
+      else if (wide.addListener) wide.addListener(layoutMoments); // Safari cũ
       mount.appendChild(sec);
     }
 
