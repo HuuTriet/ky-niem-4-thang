@@ -155,7 +155,7 @@ window.CONFIG = {
       type: "strip",
       photos: [
         { src: "assets/photos/05.jpg", cap: "Trước Ngọ Môn" },
-        { src: "assets/photos/01.jpg", cap: "Nụ cười của em" },
+        { src: "assets/photos/01.jpg", cap: "cười tít hết mắt" },
         { src: "assets/photos/22.jpg", cap: "Tấm gương cổ trong Đại Nội" },
         { src: "assets/photos/02.jpg", cap: "Áo đôi giữa lòng Huế" },
         { src: "assets/photos/21.jpg", cap: "cuti xế" },
