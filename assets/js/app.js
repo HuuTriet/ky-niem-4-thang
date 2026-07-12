@@ -225,6 +225,17 @@
   lb.addEventListener('click', (e) => { if (e.target === lb) lb.hidden = true; });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { lb.hidden = true; $('#wishModal').hidden = true; } });
 
+  /* Ảnh tải hụt vì mạng chập chờn: Safari để nguyên ô hỏng, không tự thử lại —
+     tự tải lại tối đa 3 lần, giãn dần, kèm tham số phá cache */
+  document.addEventListener('error', (e) => {
+    const img = e.target;
+    if (!img || img.tagName !== 'IMG' || !img.src) return;
+    const n = +(img.dataset.retry || 0);
+    if (n >= 3) return;
+    img.dataset.retry = n + 1;
+    setTimeout(() => { img.src = img.src.split('?')[0] + '?r=' + Date.now(); }, 900 * (n + 1));
+  }, true); // capture — sự kiện error của ảnh không nổi bọt
+
   /* ============================================================
      3) PARALLAX — 1 vòng rAF, chỉ transform
      ============================================================ */
