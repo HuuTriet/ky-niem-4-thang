@@ -158,7 +158,7 @@ window.CONFIG = {
         { src: "assets/photos/01.jpg", cap: "Nụ cười của em" },
         { src: "assets/photos/22.jpg", cap: "Tấm gương cổ trong Đại Nội" },
         { src: "assets/photos/02.jpg", cap: "Áo đôi giữa lòng Huế" },
-        { src: "assets/photos/21.jpg", cap: "Quán matcha ở Huế" },
+        { src: "assets/photos/21.jpg", cap: "cuti xế" },
         { src: "assets/photos/23.jpg", cap: "Chiếc nón lá quai hồng" },
         { src: "assets/photos/04.jpg", cap: "Trước cổng Quốc Học" },
       ],
