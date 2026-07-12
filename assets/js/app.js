@@ -149,6 +149,11 @@
       wrap.addEventListener('touchend', release, { passive: true });
       wrap.addEventListener('mouseenter', hold);
       wrap.addEventListener('mouseleave', release);
+      // Cuộn tay tới cuối → nối lại nửa đầu (bộ ảnh nhân đôi) thành vòng lặp liền mạch
+      wrap.addEventListener('scroll', () => {
+        const half = strack.scrollWidth / 2;
+        if (half > 0 && wrap.scrollLeft >= half) { wrap.scrollLeft -= half; pos = wrap.scrollLeft; }
+      }, { passive: true });
       new IntersectionObserver((es) => { es.forEach((en) => { seen = en.isIntersecting; }); }).observe(sec);
       if (!reduceMotion) (function marquee() {
         if (seen && auto) {
@@ -514,6 +519,12 @@
       const name = $('#wishName').value.trim();
       const msg = $('#wishMsg').value.trim();
       if (!name || !msg) return;
+      // Cây của riêng hai đứa — phải đúng mật mã mới treo được
+      const keyEl = $('#wishKey');
+      if (WT.passcode && (!keyEl || keyEl.value.trim() !== String(WT.passcode))) {
+        note.textContent = 'Sai mật mã rồi — cây này chỉ hai đứa mình treo thôi 🌱';
+        return;
+      }
       if (!addWish) { note.textContent = 'Đang kết nối máy chủ lời chúc — bạn chờ vài giây rồi bấm lại nhé.'; return; }
       const btn = $('#wishBtn');
       btn.disabled = true;
@@ -678,6 +689,36 @@
   const gate = $('#gate');
   const content = $('#content');
   document.body.classList.add('is-locked'); // khoá cuộn khi màn mở đầu đang hiện
+
+  /* ---------- Màn khoá đếm ngược tới 0:00 ngày kỉ niệm ---------- */
+  const gateMain = $('#gateMain');
+  const gateLockUI = $('#gateLock');
+  const UNLOCK = G.unlockAt ? new Date(G.unlockAt).getTime() : 0;
+  const bypass = /[?&#]xem/.test(location.search + location.hash); // link xem trước: thêm ?xem
+  const isStillLocked = () => UNLOCK && Date.now() < UNLOCK && !bypass;
+  let lockTimer = null;
+  function unlockGate() {
+    if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
+    gateLockUI.hidden = true;
+    gateMain.hidden = false; // các dòng chữ của màn chính tự chạy hiệu ứng hiện dần
+  }
+  if (isStillLocked()) {
+    gateMain.hidden = true;
+    gateLockUI.hidden = false;
+    if (G.lockKicker) $('#lockKicker').textContent = G.lockKicker;
+    if (G.lockTitle) $('#lockTitle').textContent = G.lockTitle;
+    if (G.lockHint) $('#lockHint').textContent = G.lockHint;
+    const pad = (n) => String(n).padStart(2, '0');
+    const lockTick = () => {
+      const left = UNLOCK - Date.now();
+      if (left <= 0) return unlockGate(); // tới 0:00 — mở trang ngay cả khi em đang chờ sẵn
+      $('#lkH').textContent = pad(Math.floor(left / 36e5));
+      $('#lkM').textContent = pad(Math.floor((left % 36e5) / 6e4));
+      $('#lkS').textContent = pad(Math.floor((left % 6e4) / 1e3));
+    };
+    lockTick();
+    lockTimer = setInterval(lockTick, 250);
+  }
   function revealObserve() {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
@@ -699,16 +740,4 @@
     setTimeout(revealObserve, 150);
   }
   $('#openBtn').addEventListener('click', enter);
-
-  /* Nút góc: khách vào thẳng cây thông để gửi lời chúc */
-  const gateWishBtn = $('#gateWishBtn');
-  if (gateWishBtn) {
-    gateWishBtn.addEventListener('click', () => {
-      enter();
-      setTimeout(() => {
-        const tree = document.getElementById('wishtree');
-        if (tree) tree.scrollIntoView({ behavior: 'auto', block: 'start' });
-      }, 250);
-    });
-  }
 })();

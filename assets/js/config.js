@@ -76,6 +76,12 @@ window.CONFIG = {
     title: "Có một câu chuyện anh muốn kể em nghe.",
     button: "Bắt đầu ♪",
     hint: "Bật loa để nghe nhạc",
+    // Màn khoá: đếm ngược tới đúng 0:00 ngày kỉ niệm rồi trang mới mở.
+    // (Muốn xem trước, thêm ?xem vào cuối link. Muốn tắt màn khoá: xoá dòng unlockAt.)
+    unlockAt: "2026-07-13T00:00:00+07:00",
+    lockKicker: "13.07.2026 — tròn bốn tháng",
+    lockTitle: "Có một câu chuyện đang đợi em ở đây.",
+    lockHint: "Đúng 0:00 đêm nay trang sẽ tự mở — em quay lại nhé.",
   },
 
   /* ---------- 5) HERO (video chạy nền) ---------- */
@@ -102,9 +108,9 @@ window.CONFIG = {
   story: [
     {
       type: "scene", photo: "assets/photos/28.jpg", align: "left", focus: "48% 26%",
-      chapter: "Chương một", date: "Mùa xuân",
-      title: "Đêm mùa xuân mình gặp nhau",
-      text: "Chiến dịch của Đại học Kinh tế, những ngày đầu xuân. Anh đến chỉ mong góp một chút sức mình, chẳng mong cầu gì hơn. Vậy mà giữa những ngày bận rộn ấy, anh bắt đầu để ý đến một cô gái — là em. Chuyến đi kết thúc, mọi thứ trở lại như cũ, chỉ có anh là khác đi: làm gì, ở đâu, anh cũng thấy mình nghĩ tới em.",
+      chapter: "Chương một", date: "Mùa đông",
+      title: "Đêm mùa đông mình quen nhau",
+      text: "Chiến dịch của Đại học Kinh tế, những ngày cuối năm. Anh đến chỉ mong góp một chút sức mình, chẳng mong cầu gì hơn. Vậy mà giữa những ngày lạnh và bận rộn ấy, anh bắt đầu để ý đến một cô gái — là em. Chuyến đi kết thúc, mọi thứ trở lại như cũ, chỉ có anh là khác đi: làm gì, ở đâu, anh cũng thấy mình nghĩ tới em.",
     },
     {
       type: "keepsake", photo: "assets/photos/24.jpg",
@@ -190,7 +196,7 @@ Anh không hứa điều gì to tát. Anh chỉ hứa sẽ nghiêm túc với em
 Cảm ơn em vì bốn tháng vừa rồi. Mong là mình còn đi cùng nhau thật lâu.
 
 Yêu em.`,
-  letterSign: "{{HIS_NAME}}",
+  letterSign: "", // không ký tên — thư đã khép lại bằng "Yêu em."
 
   /* ---------- 9) QUIZ ---------- */
   quizChapter: "Chương chín",
@@ -199,9 +205,9 @@ Yêu em.`,
     { q: "Mình biết đến nhau từ đâu?",
       options: ["Ở căng tin trường", "Chuyến tình nguyện Đông Xuân của Đại học Kinh tế", "Trong một quán cà phê", "Do bạn chung giới thiệu"],
       answer: 1, reaction: "Đúng rồi. Chuyến đi đó là khởi đầu của tất cả." },
-    { q: "Mình gặp nhau vào mùa nào trong năm?",
+    { q: "Mình quen biết nhau vào mùa nào trong năm?",
       options: ["Mùa xuân", "Mùa hạ", "Mùa thu", "Mùa đông"],
-      answer: 0, reaction: "Mùa xuân năm ấy, vì có em, thành mùa đáng nhớ nhất." },
+      answer: 3, reaction: "Mùa đông năm ấy, vì có em, thành mùa đáng nhớ nhất." },
     { q: "Ai là người bắt chuyện trước?",
       options: ["{{HIS_NAME}}", "{{HER_NAME}}", "Cả hai cùng lúc", "Do người khác giới thiệu"],
       answer: 0, reaction: "May là hôm đó anh đủ can đảm." }, // ⬅️ SỬA nếu người bắt chuyện trước là Trâm
@@ -244,7 +250,8 @@ Yêu em.`,
   wishtree: {
     chapter: "Chương mười",
     title: "Cây thông yêu thương",
-    text: "Chuyện của mình bắt đầu từ chiến dịch Đông Xuân — nên ở đây có một cây thông. Ai ghé qua cũng có thể treo một lời chúc: tên bạn sẽ thành quả châu trên cây, chạm vào để đọc.",
+    text: "Chuyện của mình bắt đầu từ chiến dịch Đông Xuân — nên ở đây có một cây thông. Cây này của riêng hai đứa: mỗi dịp đáng nhớ, mình lại cùng nhau treo lên một lời chúc.",
+    passcode: "1303", // mật mã để treo lời chúc — chỉ hai đứa biết (đổi tuỳ ý)
     firebase: {
       apiKey: "AIzaSyA81E1I0eWEwXRqy2sUP2rdw4tr9lGZ9bE",
       authDomain: "anniversary4th.firebaseapp.com",
@@ -267,7 +274,7 @@ Yêu em.`,
     message:
 `Trang này rồi sẽ cũ, nhưng điều anh muốn nói thì không.
 
-Cảm ơn em vì đã xuất hiện vào đúng mùa xuân năm ấy — lúc anh không ngờ tới nhất. Cảm ơn em vì bốn tháng vừa qua: không dài, nhưng đủ để anh biết mình muốn cùng em đi tiếp những mùa sau.
+Cảm ơn em vì đã xuất hiện vào đúng mùa đông năm ấy — lúc anh không ngờ tới nhất. Cảm ơn em vì bốn tháng vừa qua: không dài, nhưng đủ để anh biết mình muốn cùng em đi tiếp những mùa sau.
 
 Nếu được ước một điều dưới bầu trời này, anh không ước gì to tát. Anh chỉ ước những gì mình đang có — em, và những ngày sắp tới của hai đứa — cứ thế mà bền lâu.
 

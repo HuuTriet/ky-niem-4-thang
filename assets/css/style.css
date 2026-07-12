@@ -103,15 +103,23 @@ button { font-family: var(--sans); }
   margin-top: 18px; font-size: .78rem; color: var(--cream-dim);
   opacity: 0; animation: fadeUp 1.2s ease 2.1s forwards;
 }
-.gate__wish {
-  position: absolute; right: 16px; bottom: max(16px, env(safe-area-inset-bottom));
-  font-size: .78rem; letter-spacing: .5px; color: var(--cream-dim);
-  background: transparent; border: 1px solid var(--line); border-radius: 999px;
-  padding: 9px 16px; cursor: pointer;
-  opacity: 0; animation: fadeUp 1.2s ease 2.5s forwards;
-  transition: color .2s ease, border-color .2s ease;
+/* Đồng hồ đếm ngược tới 0:00 ngày kỉ niệm */
+.lockcount {
+  display: grid; grid-template-columns: repeat(3, minmax(84px, 108px)); gap: 10px;
+  justify-content: center; margin-bottom: 30px;
+  opacity: 0; animation: fadeUp 1.2s ease 1.5s forwards;
 }
-.gate__wish:hover { color: var(--amber-soft); border-color: var(--amber); }
+.lockcount__cell {
+  padding: 16px 8px 12px; border-radius: 14px;
+  background: rgba(243, 236, 221, .04); border: 1px solid var(--line);
+  text-align: center;
+}
+.lockcount__cell b {
+  display: block; font-family: var(--serif); font-weight: 600;
+  font-size: clamp(1.9rem, 8vw, 2.6rem); line-height: 1.1;
+  color: var(--amber-soft); font-variant-numeric: tabular-nums;
+}
+.lockcount__cell span { font-size: .66rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-dim); }
 
 /* ============================================================
    NỘI DUNG CHUNG

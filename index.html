@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#0e0c0a" />
   <title>Triết ♡ Quỳnh Trâm — Bốn tháng của chúng mình</title>
   <meta name="description" content="Một câu chuyện nhỏ, kể bằng ảnh, phim và những dòng viết tay — kỉ niệm 4 tháng." />
+  <meta name="robots" content="noindex, nofollow" /><!-- trang riêng tư: không cho Google index -->
+
 
   <!-- Fonts (hỗ trợ tiếng Việt đầy đủ) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,13 +24,23 @@
 
   <!-- ═══════ MÀN MỞ ĐẦU ═══════ -->
   <div id="gate" class="gate">
-    <div class="gate__inner">
+    <div class="gate__inner" id="gateMain">
       <p class="gate__kicker" id="gateKicker">Gửi em</p>
       <h1 class="gate__title" id="gateTitle">Có một câu chuyện anh muốn kể em nghe.</h1>
       <button class="gate__btn" id="openBtn">Bắt đầu ♪</button>
       <p class="gate__hint" id="gateHint">Bật loa để nghe nhạc</p>
     </div>
-    <button class="gate__wish" id="gateWishBtn">🎄 Gửi lời chúc cho hai đứa →</button>
+    <!-- Màn khoá đếm ngược tới 0:00 ngày kỉ niệm -->
+    <div class="gate__inner" id="gateLock" hidden>
+      <p class="gate__kicker" id="lockKicker">13.07.2026 — tròn bốn tháng</p>
+      <h1 class="gate__title" id="lockTitle">Có một câu chuyện đang đợi em ở đây.</h1>
+      <div class="lockcount" aria-live="off">
+        <div class="lockcount__cell"><b id="lkH">00</b><span>giờ</span></div>
+        <div class="lockcount__cell"><b id="lkM">00</b><span>phút</span></div>
+        <div class="lockcount__cell"><b id="lkS">00</b><span>giây</span></div>
+      </div>
+      <p class="gate__hint" id="lockHint">Đúng 0:00 đêm nay trang sẽ tự mở — em quay lại nhé.</p>
+    </div>
   </div>
 
   <!-- Nút nhạc -->
@@ -119,7 +131,8 @@
         <form class="wish-form" id="wishForm">
           <h3>Treo một lời chúc</h3>
           <input type="text" id="wishName" maxlength="24" placeholder="Tên của bạn" required autocomplete="name" />
-          <textarea id="wishMsg" maxlength="500" rows="4" placeholder="Lời chúc của bạn cho hai đứa…" required></textarea>
+          <textarea id="wishMsg" maxlength="500" rows="4" placeholder="Lời chúc, lời nhắn cho chặng đường sắp tới…" required></textarea>
+          <input type="password" id="wishKey" maxlength="12" placeholder="Mật mã của hai đứa" autocomplete="off" required />
           <button type="submit" class="wish-form__btn" id="wishBtn">Treo lên cây 🎄</button>
           <p class="wish-form__note" id="wishNote"></p>
         </form>
