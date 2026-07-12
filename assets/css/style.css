@@ -170,6 +170,12 @@ button { font-family: var(--sans); }
   animation: shimmer 7s linear infinite;
 }
 .hero__names i { font-style: italic; font-weight: 400; color: var(--amber); padding: 0 .18em; }
+/* Điện thoại: tên dài nên xuống dòng so le — "Hữu Triết &" chếch trái, "Quỳnh Trâm" chếch phải */
+@media (max-width: 759px) {
+  .hero__names { text-wrap: initial; }
+  .hero__names #hisName, .hero__names i { position: relative; left: -5vw; white-space: nowrap; }
+  .hero__names #herName { display: block; position: relative; left: 5vw; white-space: nowrap; }
+}
 .hero__title {
   font-family: var(--serif); font-style: italic; font-weight: 400;
   font-size: clamp(1.1rem, 4.6vw, 1.5rem); color: var(--amber-soft); margin-top: 10px;
