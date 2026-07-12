@@ -10,7 +10,7 @@ window.CONFIG = {
 
   /* ---------- 1) TÊN ---------- */
   herName: "Quỳnh Trâm",
-  hisName: "Triết",
+  hisName: "Hữu Triết",
   herNick: "Trâm",
   hisNick: "anh",
 
