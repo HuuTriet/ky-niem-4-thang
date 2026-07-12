@@ -141,7 +141,7 @@ window.CONFIG = {
         { src: "assets/photos/26.jpg", cap: "Quà 100 ngày em tặng — “chúc bạn tiếp tục iu thưn tui nhá”" },
         { src: "assets/photos/27.jpg", cap: "Buổi tối chạy xe vòng vòng, em và bé sứa bóng bay" },
         { src: "assets/photos/14.jpg", cap: "Đi dạoo cùng nhau" },
-        { src: "assets/photos/13.jpg", cap: "Dooixii" },
+        { src: "assets/photos/13.jpg", cap: "Dỗiiii" },
         { src: "assets/photos/08.jpg", cap: "Nhẫn đôi của hai đứa" },
       ],
     },
