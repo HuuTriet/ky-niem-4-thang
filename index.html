@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e0c0a" />
+  <title>Triết ♡ Quỳnh Trâm — Bốn tháng của chúng mình</title>
+  <meta name="description" content="Một câu chuyện nhỏ, kể bằng ảnh, phim và những dòng viết tay — kỉ niệm 4 tháng." />
+
+  <!-- Fonts (hỗ trợ tiếng Việt đầy đủ) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Hạt bụi sáng + confetti (một canvas duy nhất) -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <!-- Hạt film mảnh phủ toàn trang -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ═══════ MÀN MỞ ĐẦU ═══════ -->
+  <div id="gate" class="gate">
+    <div class="gate__inner">
+      <p class="gate__kicker" id="gateKicker">Gửi em</p>
+      <h1 class="gate__title" id="gateTitle">Có một câu chuyện anh muốn kể em nghe.</h1>
+      <button class="gate__btn" id="openBtn">Bắt đầu ♪</button>
+      <p class="gate__hint" id="gateHint">Bật loa để nghe nhạc</p>
+    </div>
+    <button class="gate__wish" id="gateWishBtn">🎄 Gửi lời chúc cho hai đứa →</button>
+  </div>
+
+  <!-- Nút nhạc -->
+  <button class="music" id="musicToggle" aria-label="Bật / tắt nhạc">♪</button>
+  <audio id="bgm" loop preload="auto"></audio>
+
+  <!-- ═══════ NỘI DUNG ═══════ -->
+  <main id="content" class="content" aria-hidden="true">
+
+    <!-- HERO: video chạy nền liên tục -->
+    <header class="hero">
+      <video class="hero__video" id="heroVideo" muted loop playsinline autoplay preload="metadata"></video>
+      <div class="hero__shade"></div>
+      <div class="hero__inner">
+        <p class="hero__kicker reveal" id="heroKicker"></p>
+        <h1 class="hero__names reveal"><span id="hisName">Triết</span><i>&amp;</i><span id="herName">Quỳnh Trâm</span></h1>
+        <h2 class="hero__title reveal" id="heroTitle"></h2>
+        <p class="hero__sub reveal" id="heroSub"></p>
+        <div class="counter reveal" id="counter" aria-live="off">
+          <div class="counter__cell"><b id="cDays">0</b><span>ngày</span></div>
+          <div class="counter__cell"><b id="cHours">0</b><span>giờ</span></div>
+          <div class="counter__cell"><b id="cMins">0</b><span>phút</span></div>
+          <div class="counter__cell"><b id="cSecs">0</b><span>giây</span></div>
+        </div>
+        <p class="counter__label reveal" id="counterLabel"></p>
+      </div>
+      <div class="hero__cue" aria-hidden="true"><span>Cuộn để bắt đầu câu chuyện</span><i></i></div>
+    </header>
+
+    <!-- CÁC CHƯƠNG (dựng từ config) -->
+    <div id="storyMount"></div>
+
+    <!-- THƯỚC PHIM: tự chạy khi cuộn tới -->
+    <section class="film" id="filmSection">
+      <div class="chapterhead reveal">
+        <p class="chapterhead__eyebrow" id="filmChapter"></p>
+        <h2 class="chapterhead__title" id="filmTitle"></h2>
+        <p class="chapterhead__text" id="filmText"></p>
+      </div>
+      <div class="film__frame reveal">
+        <video id="filmVideo" muted loop playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <!-- LÁ THƯ -->
+    <section class="letter" id="letterSection">
+      <div class="chapterhead reveal">
+        <p class="chapterhead__eyebrow" id="letterChapter"></p>
+        <h2 class="chapterhead__title" id="letterTitle"></h2>
+      </div>
+      <article class="letter__paper reveal">
+        <div id="letterBody" class="letter__body"></div>
+        <p class="letter__sign" id="letterSign"></p>
+        <button class="letter__skip" id="letterSkip" hidden>Hiện cả thư</button>
+      </article>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="quizsec" id="quizSection">
+      <div class="chapterhead reveal">
+        <p class="chapterhead__eyebrow" id="quizChapter"></p>
+        <h2 class="chapterhead__title" id="quizTitle"></h2>
+      </div>
+      <div class="quiz reveal" id="quizBox"></div>
+    </section>
+
+    <!-- CÂY THÔNG LỜI CHÚC -->
+    <section class="treesec" id="wishtree">
+      <div class="chapterhead reveal">
+        <p class="chapterhead__eyebrow" id="treeChapter"></p>
+        <h2 class="chapterhead__title" id="treeTitle"></h2>
+        <p class="chapterhead__text" id="treeText"></p>
+      </div>
+      <div class="tree-wrap reveal">
+        <div class="tree-col">
+          <div class="tree" id="tree" aria-label="Cây thông lời chúc">
+            <div class="tree__star">✦</div>
+            <div class="tree__layer tree__layer--1"></div>
+            <div class="tree__layer tree__layer--2"></div>
+            <div class="tree__layer tree__layer--3"></div>
+            <div class="tree__layer tree__layer--4"></div>
+            <div class="tree__trunk"></div>
+            <div class="tree__lights" id="treeLights" aria-hidden="true"></div>
+            <div class="tree__balls" id="treeBalls"></div>
+          </div>
+          <p class="tree-count" id="treeCount"></p>
+        </div>
+        <form class="wish-form" id="wishForm">
+          <h3>Treo một lời chúc</h3>
+          <input type="text" id="wishName" maxlength="24" placeholder="Tên của bạn" required autocomplete="name" />
+          <textarea id="wishMsg" maxlength="500" rows="4" placeholder="Lời chúc của bạn cho hai đứa…" required></textarea>
+          <button type="submit" class="wish-form__btn" id="wishBtn">Treo lên cây 🎄</button>
+          <p class="wish-form__note" id="wishNote"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- CHƯƠNG CUỐI -->
+    <section class="finale" id="finaleSection">
+      <img class="finale__bg" id="finaleBg" alt="" loading="lazy" decoding="async" />
+      <div class="finale__shade"></div>
+      <div class="finale__inner">
+        <p class="chapterhead__eyebrow reveal" id="finaleChapter"></p>
+        <h2 class="finale__title reveal" id="finaleTitle"></h2>
+        <div class="finale__msg reveal" id="finaleMsg"></div>
+        <p class="finale__sign reveal" id="finaleSign"></p>
+        <button class="finale__btn reveal" id="loveBtn"></button>
+        <div class="reasons-ticker reveal" id="reasonsTicker" aria-hidden="true"><div class="reasons-ticker__track" id="reasonsTrack"></div></div>
+        <p class="credit">13.03.2026 — mãi về sau</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox ảnh -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" id="lightboxClose" aria-label="Đóng">✕</button>
+    <img id="lightboxImg" alt="" />
+    <p id="lightboxCap"></p>
+  </div>
+
+  <!-- Modal đọc lời chúc -->
+  <div class="wish-modal" id="wishModal" hidden>
+    <div class="wish-modal__card">
+      <button class="wish-modal__close" id="wishModalClose" aria-label="Đóng">✕</button>
+      <div class="wish-modal__icon">🎁</div>
+      <h3 class="wish-modal__name" id="wishModalName"></h3>
+      <p class="wish-modal__msg" id="wishModalMsg"></p>
+      <p class="wish-modal__time" id="wishModalTime"></p>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/effects.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
