@@ -51,6 +51,8 @@
       s: Math.random() * 0.55 + 0.2,              // scale
       vy: -(Math.random() * 0.16 + 0.04),
       vx: (Math.random() - 0.5) * 0.08,
+      ang: Math.random() * Math.PI * 2,           // hướng bay riêng của từng con
+      bs: 0.1 + Math.random() * 0.16,             // tốc độ trôi nền (không bị ma sát ăn mòn)
       a: Math.random() * 0.5 + 0.2,
       tw: Math.random() * Math.PI * 2,
       tws: Math.random() * 0.015 + 0.004,
@@ -65,6 +67,16 @@
       mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
     }, { passive: true });
     window.addEventListener('mouseleave', () => { mouse.active = false; mouse.x = -9999; });
+  }
+  // Trên điện thoại: đom đóm né NGÓN TAY — chạm/vuốt tới đâu né tới đó
+  if (!reduceMotion) {
+    const touch = (e) => {
+      const t = e.touches[0];
+      if (t) { mouse.x = t.clientX; mouse.y = t.clientY; mouse.active = true; }
+    };
+    window.addEventListener('touchstart', touch, { passive: true });
+    window.addEventListener('touchmove', touch, { passive: true });
+    window.addEventListener('touchend', () => { mouse.active = false; mouse.x = -9999; }, { passive: true });
   }
 
   /* ---- Sao băng hiếm ---- */
@@ -123,7 +135,10 @@
     for (const d of dust) {
       d.tw += d.tws;
       let glow = 0;
-      // Trôi chậm, lộn xộn: mỗi khung thêm chút gia tốc ngẫu nhiên
+      // Trôi chậm, lộn xộn: hướng bay riêng xoay dần + chút gia tốc ngẫu nhiên
+      // (ma sát bên dưới chỉ ăn vào phần vx/vy, KHÔNG ăn vào tốc độ trôi nền bs
+      //  — trước đây vận tốc bị ma sát nuốt hết nên đom đóm gần như đứng yên)
+      d.ang += (Math.random() - 0.5) * 0.07;
       d.vx += (Math.random() - 0.5) * 0.02;
       d.vy += (Math.random() - 0.5) * 0.02;
       // Đom đóm NÉ chuột: hạt gần con trỏ bị đẩy ra xa và sáng lên
@@ -142,7 +157,8 @@
       d.vx *= 0.975; d.vy *= 0.975;
       d.vx = Math.max(-0.6, Math.min(0.6, d.vx));
       d.vy = Math.max(-0.6, Math.min(0.6, d.vy));
-      d.x += d.vx; d.y += d.vy;
+      d.x += d.vx + Math.cos(d.ang) * d.bs;
+      d.y += d.vy + Math.sin(d.ang) * d.bs * 0.9 - 0.03; // hơi chếch lên như đom đóm thật
       // Bọc quanh mọi cạnh
       if (d.x < -20) d.x = W() + 16; else if (d.x > W() + 20) d.x = -16;
       if (d.y < -20) d.y = H() + 16; else if (d.y > H() + 20) d.y = -16;
