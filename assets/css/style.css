@@ -285,12 +285,10 @@ button { font-family: var(--sans); }
    STRIP — dải ảnh vuốt ngang (Huế)
    ============================================================ */
 .strip { padding: 26px 0 110px; background: var(--ink); overflow: hidden; }
-.strip__track {
-  display: flex; gap: 16px; width: max-content; padding: 18px 26px 26px;
-  animation: stripScroll 55s linear infinite;
-  will-change: transform;
-}
-.strip__track:hover, .strip__track:active { animation-play-state: paused; }
+/* Marquee chạy bằng scrollLeft (JS) — iOS không vẽ nổi track quá rộng khi animate transform */
+.strip__wrap { overflow-x: auto; scrollbar-width: none; }
+.strip__wrap::-webkit-scrollbar { display: none; }
+.strip__track { display: flex; gap: 16px; width: max-content; padding: 18px 26px 26px; }
 .strip__card {
   flex: 0 0 min(64vw, 300px);
   background: var(--cream); border-radius: 4px; padding: 10px 10px 14px;
@@ -306,10 +304,6 @@ button { font-family: var(--sans); }
   font-family: var(--serif); font-style: italic; font-size: .88rem; color: #6d5f4c;
 }
 .strip__hint { text-align: center; color: var(--cream-dim); font-size: .74rem; letter-spacing: 2px; text-transform: uppercase; }
-@keyframes stripScroll { to { transform: translateX(calc(-50% - 8px)); } } /* -8px = nửa gap để vòng lặp liền mạch */
-@media (prefers-reduced-motion: reduce) {
-  .strip__track { animation: none; overflow-x: auto; width: auto; }
-}
 
 /* ============================================================
    FILM — thước phim tự chạy
@@ -559,13 +553,10 @@ button { font-family: var(--sans); }
   transition: transform .2s ease;
 }
 .finale__btn:hover { transform: translateY(-2px) scale(1.03); }
-.finale__sign { margin-top: 22px; font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--amber-soft); }
+.finale__sign { margin-top: 22px; text-align: right; padding-right: 6%; font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--amber-soft); }
 
 .reasons-ticker { margin-top: 54px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 13px 0; }
-.reasons-ticker__track {
-  display: inline-flex; gap: 0; white-space: nowrap; will-change: transform;
-  animation: ticker 60s linear infinite;
-}
+.reasons-ticker__track { display: inline-flex; gap: 0; white-space: nowrap; }
 .reasons-ticker__track span { font-family: var(--serif); font-style: italic; font-size: .92rem; color: var(--cream-dim); }
 .reasons-ticker__track i { color: var(--amber); font-style: normal; padding: 0 18px; }
 .credit { margin-top: 34px; font-size: .68rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(201, 189, 167, .5); }
@@ -629,7 +620,6 @@ button { font-family: var(--sans); }
 @keyframes lightTwinkle { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
 @keyframes spinSlow { to { transform: rotate(360deg); } }
 @keyframes riseIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-@keyframes ticker { to { transform: translateX(-50%); } }
 
 /* ============================================================
    DESKTOP
@@ -638,6 +628,14 @@ button { font-family: var(--sans); }
   .scene__content { padding: 0 8vw 14vh; }
   .scene--left .scene__content { margin-right: auto; }
   .scene--right .scene__content { margin-left: auto; text-align: left; }
+  /* Ảnh dọc trên màn rộng: ảnh nép sang trái, chữ thành khối bên phải (không đè lên ảnh) */
+  .scene[data-fit="contain"] .scene__bg {
+    left: 0; width: 60%; top: -6%; height: 114%;
+  }
+  .scene[data-fit="contain"] .scene__content {
+    margin: 0 5vw 0 60%; align-self: center; text-align: left;
+    max-width: 480px; padding: 0 10px 4vh;
+  }
   .keepsake__grid { grid-template-columns: 380px 1fr; gap: 64px; }
   .moments__grid { columns: 3; column-gap: 16px; }
   .moment { margin-bottom: 16px; }
@@ -651,5 +649,4 @@ button { font-family: var(--sans); }
     transition-duration: .001ms !important;
   }
   html { scroll-behavior: auto; }
-  .reasons-ticker__track { animation: none; }
 }

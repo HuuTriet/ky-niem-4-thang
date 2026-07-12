@@ -133,9 +133,30 @@
           '<figcaption>' + esc(p.cap || '') + '</figcaption>' +
           '</figure>';
       });
-      // Nhân đôi bộ ảnh để marquee chạy vòng liền mạch
-      sec.innerHTML = '<div class="strip__track">' + cards + cards + '</div><p class="strip__hint">kỉ niệm cứ thế trôi, chầm chậm</p>';
+      // Nhân đôi bộ ảnh để marquee chạy vòng liền mạch.
+      // Chạy bằng scrollLeft thay vì animate transform: track quá rộng làm iOS bỏ vẽ (dải bị trống trên iPhone).
+      sec.innerHTML = '<div class="strip__wrap"><div class="strip__track">' + cards + cards + '</div></div><p class="strip__hint">kỉ niệm cứ thế trôi, chầm chậm</p>';
       mount.appendChild(sec);
+      const wrap = sec.querySelector('.strip__wrap');
+      const strack = sec.querySelector('.strip__track');
+      let pos = 0, auto = true, seen = false, holdT = 0;
+      const hold = () => { auto = false; clearTimeout(holdT); };
+      const release = () => {
+        clearTimeout(holdT);
+        holdT = setTimeout(() => { pos = wrap.scrollLeft; auto = true; }, 2400);
+      };
+      wrap.addEventListener('touchstart', hold, { passive: true });
+      wrap.addEventListener('touchend', release, { passive: true });
+      wrap.addEventListener('mouseenter', hold);
+      wrap.addEventListener('mouseleave', release);
+      new IntersectionObserver((es) => { es.forEach((en) => { seen = en.isIntersecting; }); }).observe(sec);
+      if (!reduceMotion) (function marquee() {
+        if (seen && auto) {
+          const half = strack.scrollWidth / 2;
+          if (half > 0) { pos += 0.55; if (pos >= half) pos -= half; wrap.scrollLeft = pos; }
+        }
+        requestAnimationFrame(marquee);
+      })();
     }
   });
 
@@ -529,6 +550,16 @@
   if (track && tickerItems.length) {
     const seq = tickerItems.map((r) => '<span>' + esc(r) + '</span><i>✦</i>').join('');
     track.innerHTML = seq + seq; // nhân đôi để chạy vòng liền mạch
+    // Cũng chạy bằng scrollLeft — tránh lỗi iOS bỏ vẽ layer quá rộng khi animate transform
+    const box = $('#reasonsTicker');
+    if (!reduceMotion && box) {
+      let tp = 0;
+      (function tickTicker() {
+        const half = track.scrollWidth / 2;
+        if (half > 0) { tp += 0.5; if (tp >= half) tp -= half; box.scrollLeft = tp; }
+        requestAnimationFrame(tickTicker);
+      })();
+    }
   }
 
   /* ============================================================
