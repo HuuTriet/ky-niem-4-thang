@@ -227,6 +227,26 @@ button { font-family: var(--sans); }
 .scene[data-fit="contain"] .scene__content {
   margin: 0 auto; text-align: center; max-width: 620px;
 }
+/* Điện thoại: ảnh dọc thu gọn về giữa màn — nhãn chương dời lên góc trên,
+   chữ tựa đề + lời kể nằm hẳn trên nền tối phía dưới (tương phản tốt hơn) */
+@media (max-width: 759px) {
+  .scene[data-fit="contain"] .scene__bg { left: -2%; width: 104%; top: 9%; height: 62%; }
+  .scene[data-fit="contain"] .scene__fill { filter: blur(34px) brightness(.5) saturate(1.35); }
+  .scene[data-fit="contain"] .scene__shade {
+    background:
+      linear-gradient(180deg, rgba(15,12,9,.9), rgba(15,12,9,.42) 16%, transparent 32%, transparent 56%, rgba(15,12,9,.6) 72%, rgba(15,12,9,.95));
+  }
+  .scene[data-fit="contain"] .scene__content {
+    align-self: stretch; display: flex; flex-direction: column;
+    padding-top: calc(26px + env(safe-area-inset-top));
+  }
+  .scene[data-fit="contain"] .scene__eyebrow,
+  .scene[data-fit="contain"] .scene__date {
+    text-align: left; text-shadow: 0 2px 14px rgba(0, 0, 0, .85);
+  }
+  /* đẩy tựa đề + lời kể xuống đáy, nhãn chương ở lại góc trên */
+  .scene[data-fit="contain"] .scene__title { margin-top: auto; }
+}
 .scene__shade {
   position: absolute; inset: 0; z-index: 2;
   background:
@@ -563,7 +583,11 @@ button { font-family: var(--sans); }
 .finale__btn:hover { transform: translateY(-2px) scale(1.03); }
 .finale__sign { margin-top: 22px; text-align: right; padding-right: 6%; font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--amber-soft); }
 
-.reasons-ticker { margin-top: 54px; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 13px 0; }
+.reasons-ticker {
+  margin-top: 54px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 13px 0;
+  overflow-x: auto; overflow-y: hidden; scrollbar-width: none; /* cùng cơ chế cuộn với dải ảnh — chạy ổn trên iPhone */
+}
+.reasons-ticker::-webkit-scrollbar { display: none; }
 .reasons-ticker__track { display: inline-flex; gap: 0; white-space: nowrap; }
 .reasons-ticker__track span { font-family: var(--serif); font-style: italic; font-size: .92rem; color: var(--cream-dim); }
 .reasons-ticker__track i { color: var(--amber); font-style: normal; padding: 0 18px; }

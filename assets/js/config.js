@@ -101,7 +101,7 @@ window.CONFIG = {
     "Cảm ơn CLB Guitar DUE",
     "Cảm ơn trường Đại học Kinh tế",
     "Cảm ơn thành phố Vinh, Nghệ An",
-    "Cảm ơn ba Sơn, mẹ Tâm",
+    "Cảm ơn bố Sơn, mẹ Tâm",
   ],
 
   /* ---------- 6) CÂU CHUYỆN — CÁC CHƯƠNG ---------- */
@@ -279,7 +279,7 @@ Cảm ơn em vì đã xuất hiện vào đúng mùa đông năm ấy — lúc a
 Nếu được ước một điều dưới bầu trời này, anh không ước gì to tát. Anh chỉ ước những gì mình đang có — em, và những ngày sắp tới của hai đứa — cứ thế mà bền lâu.
 
 Tròn bốn tháng. Đi tiếp cùng anh nhé.`,
-    sign: "Yêu em — {{HIS_NAME}}",
+    sign: "Yêu em — Anh",
     button: "Thả một chiếc tim cho tụi mình",
   },
 };
