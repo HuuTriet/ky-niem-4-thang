@@ -63,6 +63,25 @@
   const esc = (t) => String(t == null ? '' : t)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+  // Kích thước gốc từng ảnh — để trình duyệt biết chiều cao TRƯỚC khi ảnh tải,
+  // lưới "khoảnh khắc" (CSS columns) mới chia cột đều, không bị dồn hết 1 bên
+  const PHOTO_DIMS = {
+    '01.jpg': [1600, 900],  '02.jpg': [1600, 900],  '03.jpg': [1200, 1600],
+    '04.jpg': [1200, 1600], '05.jpg': [1600, 926],  '06.jpg': [1020, 1020],
+    '07.jpg': [1200, 1600], '08.jpg': [1020, 1020], '09.jpg': [1020, 1020],
+    '10.jpg': [1376, 768],  '11.jpg': [1376, 768],  '12.jpg': [989, 989],
+    '13.jpg': [1179, 1573], '14.jpg': [1224, 1400], '15.jpg': [960, 1280],
+    '16.jpg': [1080, 1080], '17.jpg': [1020, 1020], '18.jpg': [1131, 1600],
+    '19.jpg': [1020, 1020], '20.jpg': [1020, 1020], '21.jpg': [1020, 1020],
+    '22.jpg': [1020, 1020], '23.jpg': [1020, 1020], '24.jpg': [1400, 1400],
+    '25.jpg': [1020, 1020], '26.jpg': [1020, 1020], '27.jpg': [1020, 1020],
+    '28.jpg': [1020, 1020],
+  };
+  const dimAttr = (src) => {
+    const d = PHOTO_DIMS[String(src || '').split('/').pop()];
+    return d ? 'width="' + d[0] + '" height="' + d[1] + '" ' : '';
+  };
+
   (C.story || []).forEach((b, idx) => {
     if (b.type === 'scene') {
       const sec = document.createElement('section');
@@ -109,7 +128,7 @@
       let grid = '';
       (b.photos || []).forEach((p) => {
         grid += '<figure class="moment reveal" data-src="' + esc(p.src) + '" data-cap="' + esc(p.cap || '') + '">' +
-          '<img src="' + esc(p.src) + '" alt="' + esc(p.cap || 'Ảnh kỉ niệm') + '" loading="lazy" decoding="async" />' +
+          '<img src="' + esc(p.src) + '" alt="' + esc(p.cap || 'Ảnh kỉ niệm') + '" ' + dimAttr(p.src) + 'loading="lazy" decoding="async" />' +
           (p.cap ? '<figcaption>' + esc(p.cap) + '</figcaption>' : '') +
           '</figure>';
       });
